@@ -110,12 +110,11 @@ local function system_update_entity(sys,obj)
 end
 local function system_rm_entity(sys,obj)
     local cache=sys.__entities
-    local x=cache[obj] if x then
-        local y=#cache;local tmp=cache[y]
-        cache[x]=tmp
-        cache[y]=nil
-        cache[tmp]=x
-        cache[obj]=nil
+    local i=cache[obj] if i then
+        local last=#cache
+        cache[cache[last]]=i
+        cache[i],cache[last]=cache[last],cache[i]
+        cache[last],cache[obj]=nil,nil
         sys.__dirty=true
         if sys.exit then sys:exit(obj) end
     end
@@ -154,10 +153,12 @@ local function world_add_system(t,v,name)
     return v
 end
 local function world_rm_system(t,v) tinsert(t._system_removed,v) end
+
 local function world_update_entities(t)
     local changes=t._entity_changes
     local removed=t._entity_removed
     if #changes==0 and #removed==0 then return end
+    t._entity_changes,t._entity_removed={},{}
     local objs=t.entities
     local syss=t.systems
     -- change entity
@@ -184,9 +185,7 @@ local function world_update_entities(t)
         for j=1,#syss do system_update_entity(syss[j],obj) end
         for k,v in pairs(__cached) do __cached[k]=nil end
     end
-    for i=1,#changes do
-        changes[i]=nil
-    end
+
     -- remove entity
     for i=1,#removed do 
         local obj=removed[i]
@@ -194,7 +193,7 @@ local function world_update_entities(t)
         local y=#objs
         if x then
             objs[x],objs[y]=objs[y],objs[y]
-            objs[y]=nil
+            objs[y],objs[obj]=nil,nil
             local __cached=obj.__components_cached
             for k,v in pairs(obj) do __cached[k]=v end
             for j=1,#syss do system_rm_entity(syss[j],obj) end
