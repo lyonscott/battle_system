@@ -5,11 +5,11 @@ local system={}
 
 local function init_template_property(e)
     local temp=e.property.template
-    temp.health=500
-    temp.mana=100
-    temp.attack_damage=50
-    temp.armor=2
-    temp.attack_interval=60
+    temp.health=5
+    temp.mana=1
+    temp.attack_damage=2
+    temp.armor=1
+    temp.attack_interval=5
 end
 local function init_static_property(e)
     local temp=e.property.template

@@ -52,4 +52,11 @@ meta.state_t={
     unstoppable=false,
 }
 
+meta.ai_state_t={
+    DEAD=false,
+    HURT=false,
+    CAN_ATTACK=false,
+    HAS_ATTACK_TARGET=false,
+}
+
 return meta

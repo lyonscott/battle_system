@@ -13,6 +13,7 @@ function entity.new_unit()
             dynamic=malloc(meta.property_t),
         },
         state=malloc(meta.state_t),
+        ai_state=malloc(meta.ai_state_t),
     }
     return t
 end
