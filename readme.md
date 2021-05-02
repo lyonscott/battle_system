@@ -6,4 +6,5 @@
 
 `git branch`
 
-`git checkout 1-the_base_system`
+1. unit 单位
+2. behaviour 行为
