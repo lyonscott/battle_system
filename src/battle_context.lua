@@ -1,4 +1,5 @@
 local ecs=require "ecs"
+local list=require "list"
 
 local context={}
 local _current_context
@@ -13,7 +14,7 @@ function context.new(argv,sysv)
         world=world,
         alive_units=nil,
         dead_units=nil,
-        
+        todolist=list.new()
         tickstamp=0,
     }
     for i=1,#sysv do
@@ -29,6 +30,11 @@ function context:update()
     _current_context=self
     self.tickstamp=self.tickstamp+1
     self.world:update()
+
+    local exec=self.todolist:fpop()
+    while exec do exec()
+        exec=self.todolist:fpop()
+    end
 end
 
 return context

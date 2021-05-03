@@ -1,3 +1,5 @@
+local damage=require "battle_service_damage"
+local meta=require "battle_meta"
 local co=coroutine
 local system={}
 
@@ -9,6 +11,14 @@ local function attack(obj)
     ::BEGIN::
         act.foreswing=0
         act.backswing=0
+        local target=obj.targets.current
+        attack.damage=damage.outgoing{
+            source=obj,
+            target=target,
+            value=obj.property.static.attack_damage,
+            types=meta.DAMAGE_TYPE.PHYSICAL,
+            ability=act,
+        }
     ::FORESWING::
         while act.forsewing<__foreswing do
             act.foreswing=act.foreswing+1
@@ -16,6 +26,7 @@ local function attack(obj)
         end
     ::ATTACK::
         print("attack target")
+        damage.apply(attack.damage)
         obj.property.dynamic.attack_interval=5
     ::BACKSWING::
         while act.backswing<__backswing do
@@ -31,6 +42,7 @@ function system.filter(e)
     return e.action_attack
         and e.behaviour
         and e.targets
+        and e.property
         and e.alive_trace_flag
 end
 

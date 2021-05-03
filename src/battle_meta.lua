@@ -33,8 +33,8 @@ meta.property_t={
     attack_damage=0,
     armor=0,
     attack_interval=0,
-    incoming_physical_damage_effect=1,
-    outgoing_physical_damage_effect=1,
+    incoming_damage_effect=1,
+    outgoing_damage_effect=1,
 }
 
 meta.dynamic_property_t={
@@ -57,6 +57,13 @@ meta.ai_state_t={
     HURT=false,
     CAN_ATTACK=false,
     HAS_ATTACK_TARGET=false,
+}
+
+meta.DAMAGE_TYPE={
+    NONE=0,
+    PHYSICAL=1<<0,
+    MAGICAL=1<<1,
+    PURE=1<<2,
 }
 
 return meta
