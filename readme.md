@@ -44,3 +44,14 @@
 - 伤害输入调整
 - 末端处理
 
+### 投射物
+投射物类似子弹的概念，可以是我们熟知的攻击投射物，技能投射物,但实际开发中我们会将其归类出3大类。
+
+- 跟踪型投射物 tacking_projectile
+- 线性投射物 linear_projectile
+- 点对点投射物 point_projectile 
+
+再将其细分出不同模块
+- tween 缓动动画
+- think 间隔触发
+- render 渲染

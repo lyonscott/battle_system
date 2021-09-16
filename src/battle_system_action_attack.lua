@@ -1,4 +1,5 @@
 local damage=require "battle_service_damage"
+local projectile=require "battle_service_projectile"
 local meta=require "battle_meta"
 local co=coroutine
 local system={}
@@ -6,31 +7,50 @@ local system={}
 local __foreswing=2
 local __backswing=2
 
-local function attack(obj)
-    local act=obj.action_attack
+local function apply_damage(attack)
+    damage.apply(attack.damage)
+end
+local function melee_attack(attack) apply_damage(attack) end
+local function range_attack(attack)
+    damage.apply(attack.damage)
+    projectile.tracking{
+        owner=attack.source,
+        origin=attack.source,
+        target=attack.target,
+        speed=100,
+        damage=attack.damage,
+        on_hit=apply_damage,
+        ability=attack, 
+    } 
+end
+
+local function action_attack(obj)
+    local attack=obj.action_attack
     ::BEGIN::
-        act.foreswing=0
-        act.backswing=0
         local target=obj.targets.current
+        attack.source=obj
+        attack.target=target
+        attack.foreswing=0
+        attack.backswing=0
         attack.damage=damage.outgoing{
             source=obj,
             target=target,
             value=obj.property.static.attack_damage,
             types=meta.DAMAGE_TYPE.PHYSICAL,
-            ability=act,
+            ability=attack,
         }
     ::FORESWING::
-        while act.forsewing<__foreswing do
-            act.foreswing=act.foreswing+1
+        while attack.foreswing<__foreswing do
+            attack.foreswing=attack.foreswing+1
             co.yield()
         end
     ::ATTACK::
         print("attack target")
-        damage.apply(attack.damage)
+        range_attack(attack)
         obj.property.dynamic.attack_interval=5
     ::BACKSWING::
-        while act.backswing<__backswing do
-            act.backswing=act.backswing+1
+        while attack.backswing<__backswing do
+            attack.backswing=attack.backswing+1
             co.yield()
         end
     ::ENDED::
@@ -47,7 +67,7 @@ function system.filter(e)
 end
 
 function system.join(sys,e)
-    e.action_attack.handle=co.create(attack)
+    e.action_attack.handle=co.create(action_attack)
 end
 
 function system.update(sys,e)

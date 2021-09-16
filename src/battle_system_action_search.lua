@@ -3,10 +3,10 @@ local ctx=require "battle_context"
 local system={}
 
 local function search(obj)
-    local alive_unit=ctx().alive_unit
+    local alive_units=ctx().alive_units
     local enemy={}
-    for i=1,#alive_unit do
-    	local target=alive_unit[i]
+    for i=1,#alive_units do
+    	local target=alive_units[i]
     	local id=target.identity.team_id
     	
     	if obj.identity.team_id~=id then

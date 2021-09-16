@@ -14,7 +14,7 @@ function context.new(argv,sysv)
         world=world,
         alive_units=nil,
         dead_units=nil,
-        todolist=list.new()
+        todolist=list.new(),
         tickstamp=0,
     }
     for i=1,#sysv do

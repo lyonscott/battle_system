@@ -7,6 +7,7 @@ function entity.new_unit()
         identity=malloc(meta.identity_t),
         transform=malloc(meta.transform_t),
         renderer=malloc(meta.renderer_t),
+        targets=malloc(meta.targets_t),
         property={
             template=malloc(meta.property_t),
             static=malloc(meta.property_t),
@@ -14,6 +15,8 @@ function entity.new_unit()
         },
         state=malloc(meta.state_t),
         ai_state=malloc(meta.ai_state_t),
+        behaviour={},
+        alive_trace_flag=true,
     }
     return t
 end

@@ -1,3 +1,4 @@
+local ctx=require "battle_context"
 local meta=require "battle_meta"
 local DAMAGE_TYPE=meta.DAMAGE_TYPE
 
@@ -51,7 +52,7 @@ function damage.min_health(final)
 
     local hp=dynamic.health
     local min_hp=static.min_health
-    local fix=final.total+min_health-hp
+    local fix=final.total+min_hp-hp
 
     if fix<=0 then return false end
 
@@ -67,7 +68,7 @@ function damage.apply(dmg)
     
     local exe=function()
         damage.min_health(final)
-        local dynamic=final.taret.property.dynamic
+        local dynamic=final.target.property.dynamic
         final.hp_before=dynamic.health
         dynamic.health=dynamic.health-final.total
         final.hp_after=dynamic.health

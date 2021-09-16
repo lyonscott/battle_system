@@ -9,7 +9,7 @@ local function refresh_state(obj)
     local ai_state=obj.ai_state
     local target=obj.targets.current
 
-    ai_state.DEAD=dynamic.HEALTH<=0
+    ai_state.DEAD=dynamic.health<=0
     if ai_state.DEAD then return end
 
     ai_state.CAN_ATTACK=dynamic.attack_interval<=0

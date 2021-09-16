@@ -6,6 +6,10 @@ meta.transform_t={
     angle=0,
 }
 
+meta.targets_t={
+    current=nil,
+}
+
 meta.renderer_t={
     id=0,
     url="",

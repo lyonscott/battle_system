@@ -10,6 +10,10 @@ local systems={
     "battle_system_property",
     "battle_system_gameplay_battlefield",
 
+    "battle_system_projectile_think",
+    "battle_system_projectile_tween",
+    
+    "battle_system_behaviour",
     "battle_system_action_die",
     "battle_system_action_search",
     "battle_system_action_attack",
@@ -21,6 +25,7 @@ local ctx=context.new(argv,systems)
 local function new_unit(team_id)
 	local unit=entity.new_unit() do
 		unit.identity.team_id=team_id
+        unit.transform.position={0,0}
 	end
 	ctx.world:add_entity(unit)
 end
